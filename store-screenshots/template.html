@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Store Screenshot</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 1080px;
+    height: 1920px;
+    overflow: hidden;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: linear-gradient(170deg, #ecfdf5 0%, #d1fae5 35%, #ccfbf1 75%, #a7f3d0 100%);
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 微細な装飾パターン */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 800px; height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, transparent 60%);
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -200px; left: -300px;
+    width: 900px; height: 900px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 60%);
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 1080px;
+    height: 1920px;
+    padding: 110px 80px 80px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #047857;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 12px 26px;
+    border-radius: 999px;
+    margin-bottom: 36px;
+    letter-spacing: 0.04em;
+  }
+  .badge::before {
+    content: '🔥';
+    font-size: 22px;
+  }
+
+  h1.title {
+    font-size: 68px;
+    font-weight: 900;
+    line-height: 1.18;
+    letter-spacing: -0.03em;
+    color: #0f172a;
+    margin-bottom: 24px;
+  }
+  h1.title .accent {
+    background: linear-gradient(135deg, #10b981 0%, #14b8a6 50%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  p.subtitle {
+    font-size: 30px;
+    font-weight: 500;
+    color: #475569;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+  }
+
+  .phone-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .phone {
+    position: relative;
+    width: 540px;
+    border-radius: 56px;
+    background: #1e293b;
+    padding: 14px;
+    box-shadow:
+      0 50px 100px -20px rgba(15, 23, 42, 0.35),
+      0 30px 60px -30px rgba(20, 184, 166, 0.4),
+      inset 0 0 0 2px rgba(255, 255, 255, 0.05);
+    transform: translateY(-10px);
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 24px; left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 28px;
+    background: #0f172a;
+    border-radius: 999px;
+    z-index: 10;
+  }
+
+  .phone img {
+    width: 100%;
+    height: 1108px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 44px;
+    display: block;
+  }
+
+  .footer-tag {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: #64748b;
+    letter-spacing: 0.05em;
+  }
+  .footer-tag .brand {
+    color: #047857;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="badge" id="badge">FIREカウントダウン</div>
+      <h1 class="title" id="title"></h1>
+      <p class="subtitle" id="subtitle"></p>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <img id="appimg" alt="app screen">
+      </div>
+    </div>
+    <div class="footer-tag">
+      ミライノート  /  あなたの未来をシミュレーション
+    </div>
+  </div>
+<script>
+  const params = new URLSearchParams(location.search);
+  const scene = params.get('scene') || '1';
+
+  const data = {
+    '1': {
+      badge: 'FIREカウントダウン',
+      badgeEmoji: '🔥',
+      title: 'あなたの<span class="accent">FIRE</span>まで、<br>あと<span class="accent">3,333日</span>。',
+      subtitle: '抽象的な目標を、毎日の数字に。<br>月支出から、達成日を自動計算。',
+      img: 'source/01-hero.png',
+    },
+    '2': {
+      badge: '資産推移シミュレーション',
+      badgeEmoji: '📊',
+      title: '未来の資産が、<br><span class="accent">グラフで見える。</span>',
+      subtitle: '初期投資・累積積立・現金を分けて表示。<br>マイルストーンで「いつ何が起きるか」が一目で。',
+      img: 'source/02-graph.png',
+    },
+    '3': {
+      badge: '4指数連動',
+      badgeEmoji: '🌍',
+      title: 'S&P500、オルカン、<br><span class="accent">NASDAQ、FANG+。</span>',
+      subtitle: '世界の代表的な4指数の長期リターンで複利成長。<br>適当な5%ではなく、実在の数値で。',
+      img: 'source/03-indices.png',
+    },
+    '4': {
+      badge: '5つのFIREタイプ',
+      badgeEmoji: '🎯',
+      title: 'FIREは、<br><span class="accent">ひとつじゃない。</span>',
+      subtitle: 'リーン / ファット / サイド / バリスタ / コースト。<br>あなたに合うスタイルを選べる。',
+      img: 'source/04-firetype.png',
+    },
+    '5': {
+      badge: 'ライフプラン連携',
+      badgeEmoji: '✨',
+      title: '既存プランから、<br><span class="accent">ワンタップで。</span>',
+      subtitle: '年齢・月支出・貯蓄を自動取り込み。<br>二度入力する手間はゼロ。',
+      img: 'source/05-import.png',
+    }
+  };
+
+  const d = data[scene];
+  const badge = document.getElementById('badge');
+  badge.textContent = d.badge;
+  // 絵文字差し替え
+  badge.style.setProperty('--emoji', `"${d.badgeEmoji}"`);
+  document.getElementById('title').innerHTML = d.title;
+  document.getElementById('subtitle').innerHTML = d.subtitle;
+  document.getElementById('appimg').src = d.img;
+
+  // badge emoji を CSS で差し替え
+  const style = document.createElement('style');
+  style.textContent = `.badge::before { content: '${d.badgeEmoji}' !important; }`;
+  document.head.appendChild(style);
+</script>
+</body>
+</html>
